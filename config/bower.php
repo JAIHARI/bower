@@ -1,0 +1,13 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * Bower for Codeigniter 3
+ * @author Yoann VANITOU
+ * @license http://www.apache.org/licenses/LICENSE-2.0
+ * @link https://github.com/maltyxx/bower
+ */
+$config['bower'] = [
+    'file' => 'bower.json',
+    'usebuild' => FALSE
+];
