@@ -10,7 +10,7 @@ Bower for Codeigniter 3
 ### Step 1 Installation by Composer
 #### Run composer
 ```shell
-composer require maltyxx/Bower
+composer require maltyxx/bower
 ```
 ### Step 2 Configuration
 Duplicate configuration file `./application/third_party/origami/config/bower.php` in `./application/config/bower.php`.
