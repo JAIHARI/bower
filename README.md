@@ -17,7 +17,7 @@ Duplicate configuration file `./application/third_party/origami/config/bower.php
 
 ### Step 3 Examples
 Grunt file is located in `/Gruntfile.js`.
-```json
+```js
 module.exports = function(grunt) {
     grunt.initConfig({
         cssmin: {
