@@ -71,14 +71,33 @@ class Exemple extends CI_Controller {
 	{
 		$this->load->add_package_path(APPPATH.'third_party/bower');
         $this->load->library('bower');
-        $this->load->helper('bower');
         $this->load->remove_package_path(APPPATH.'third_party/bower');
         
-        $this->load->view('welcome', [
+        $this->load->view('exemple_index', [
             'css' => $this->bower->getCss('app'),
             'js' => $this->bower->getJS('app')
         ]);
 	}
-    
+
 }
+
+View file is located in `/application/views/exemple_index.php`.
+```php
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Welcome to CodeIgniter</title>
+    <?php foreach ($css as $file) { ?>
+    <link href="<?php echo $file; ?>" media="all" rel="stylesheet" />
+    <?php } ?>
+</head>
+<body>
+    <?php foreach ($js as $file) { ?>
+     <script src="<?php echo $file; ?>"></script>
+    <?php } ?>
+</head>
+</body>
+</html>
 ```
