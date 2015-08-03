@@ -16,31 +16,6 @@ composer require maltyxx/bower
 Duplicate configuration file `./application/third_party/origami/config/bower.php` in `./application/config/bower.php`.
 
 ### Step 3 Examples
-Grunt file is located in `/Gruntfile.js`.
-```js
-module.exports = function(grunt) {
-    grunt.config("bower", grunt.file.readJSON('bower.json'));
-
-    grunt.initConfig({
-        cssmin: {
-            css: {
-                files: grunt.config("bower").css
-            }
-        },
-        uglify: {
-            js: {
-                files: grunt.config("bower").js
-            }
-        }
-    });
-
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-
-    grunt.registerTask('build', ['cssmin:css', 'uglify:js']);
-};
-```
-
 Bower file is located in `/bower.json`.
 ```json
 {
