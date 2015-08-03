@@ -74,9 +74,10 @@ class Exemple extends CI_Controller {
         $this->load->helper('bower');
         $this->load->remove_package_path(APPPATH.'third_party/bower');
         
-        var_dump($this->bower->getJS('app'));
-        
-        var_dump($this->bower->getCss('app'));
+        $this->load->view('welcome', [
+            'css' => $this->bower->getCss('app'),
+            'js' => $this->bower->getJS('app')
+        ]);
 	}
     
 }
