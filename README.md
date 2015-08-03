@@ -80,6 +80,7 @@ class Exemple extends CI_Controller {
 	}
 
 }
+```
 
 View file is located in `/application/views/exemple_index.php`.
 ```php
