@@ -43,12 +43,12 @@ Bower file is located in `/bower.json`.
 ```json
 {
     "css": {
-         "assets/build/app.min.css": [
+         "assets/build/default.min.css": [
             "bower_components/angular/angular-csp.css"
         ]
     },
     "js": {
-        "assets/build/app.min.js": [
+        "assets/build/default.min.js": [
             "bower_components/jquery/dist/jquery.js",
             "bower_components/angular/angular.js"
         ]
@@ -74,8 +74,8 @@ class Exemple extends CI_Controller {
         $this->load->remove_package_path(APPPATH.'third_party/bower');
         
         $this->load->view('exemple_index', [
-            'css' => $this->bower->getCss('app'),
-            'js' => $this->bower->getJS('app')
+            'css' => $this->bower->css('default'),
+            'js' => $this->bower->js('default')
         ]);
 	}
 

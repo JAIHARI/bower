@@ -70,12 +70,12 @@ class Bower
 
                 // Si il y a des fichiers CSS
                 if (isset($json['css']) && is_array($json['css'])) {
-                    $this->setCss($json['css']);
+                    $this->setFiles($json['css'], 'css');
                 }
 
                 // Si il y a des fichiers JS
                 if (isset($json['js']) && is_array($json['js'])) {
-                    $this->setJs($json['js']);
+                    $this->setFiles($json['js'], 'js');
                 }
             }
         }
@@ -86,7 +86,7 @@ class Bower
      * @param string|NULL $index
      * @return mixed
      */
-    public function getCss($index = NULL) {
+    public function css($index = NULL) {
         if ($index === NULL) {
             return $this->css;
         } else if (isset($this->css[$index])) {
@@ -97,19 +97,11 @@ class Bower
     }
     
     /**
-     * Ajoute des fichiers CSS
-     * @param array $files
-     */
-    public function setCss(array $files = []) {
-        $this->setFiles($files, 'css');
-    }
-    
-    /**
      * Retourne les fichiers JS
      * @param string|NULL $index
      * @return mixed
      */
-    public function getJs($index = NULL) {
+    public function js($index = NULL) {
         if ($index === NULL) {
             return $this->js;
         } else if (isset($this->js[$index])) {
@@ -117,14 +109,6 @@ class Bower
         } else {
             return FALSE;
         }
-    }
-
-    /**
-     * Ajoute des fichiers JS
-     * @param array $files
-     */
-    public function setJs(array $files = []) {
-        $this->setFiles($files, 'js');
     }
     
     /**
