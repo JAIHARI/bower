@@ -10,6 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Bower
 {
     /**
+     * Instance de Codeigniter
+     * @var stdClass 
+     */
+    private $CI;
+    
+    /**
      * Configuration
      * @var array 
      */
@@ -17,7 +23,7 @@ class Bower
         'file' => 'bower.json',
         'usebuild' => FALSE
     ];
-    
+
     /**
      * Liste des fichier CSS
      * @var array 
@@ -36,6 +42,10 @@ class Bower
      */
     public function __construct(array $config = array())
     {
+        // Instance de Codeigniter
+        $this->CI =& get_instance();
+        $this->CI->load->helper('url');
+        
         // Initialise la configuration, si elle existe
         $this->initialize($config);
     }
@@ -123,13 +133,13 @@ class Bower
             if ($this->config['usebuild']) {
                 if (is_file($build) && is_readable($build)) {
                     $version = filemtime($build);
-                    $this->{$format}[$group][] = ['src' => "$build?v=$version", 'build' => TRUE];
+                    $this->{$format}[$group][] = ['src' => base_url("$build?v=$version"), 'build' => TRUE];
                 }
             } else {
                 foreach ($content as $file) {
                     if (is_file($file) && is_readable($file)) {
                         $version = filemtime($file);
-                        $this->{$format}[$group][] = ['src' => "$file?v=$version", 'build' => FALSE];
+                        $this->{$format}[$group][] = ['src' => base_url("$file?v=$version"), 'build' => FALSE];
                     }
                 }
             }
