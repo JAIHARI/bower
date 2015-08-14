@@ -95,7 +95,7 @@ class Bower
             return FALSE;
         }
     }
-    
+
     /**
      * Retourne les fichiers JS
      * @param string|NULL $index
@@ -123,13 +123,13 @@ class Bower
             if ($this->config['usebuild']) {
                 if (is_file($build) && is_readable($build)) {
                     $version = filemtime($build);
-                    $this->{$format}[$group][] = "$build?v=$version";
+                    $this->{$format}[$group][] = ['src' => "$build?v=$version", 'build' => TRUE];
                 }
             } else {
                 foreach ($content as $file) {
                     if (is_file($file) && is_readable($file)) {
                         $version = filemtime($file);
-                        $this->{$format}[$group][] = "$file?v=$version";
+                        $this->{$format}[$group][] = ['src' => "$file?v=$version", 'build' => FALSE];
                     }
                 }
             }
