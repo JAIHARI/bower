@@ -68,12 +68,12 @@ View file is located in `/application/views/exemple_index.php`.
 	<meta charset="utf-8">
 	<title>Welcome to CodeIgniter</title>
     <?php foreach ($css as $file) { ?>
-    <link href="<?php echo $file; ?>" media="all" rel="stylesheet" />
+    <link href="<?php echo $file['src']; ?>" media="all" rel="stylesheet" />
     <?php } ?>
 </head>
 <body>
     <?php foreach ($js as $file) { ?>
-     <script src="<?php echo $file; ?>"></script>
+     <script src="<?php echo $file['src']; ?>"></script>
     <?php } ?>
 </head>
 </body>
