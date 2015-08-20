@@ -133,13 +133,17 @@ class Bower
             if ($this->config['usebuild']) {
                 if (is_file($build) && is_readable($build)) {
                     $version = filemtime($build);
-                    $this->{$format}[$group][] = ['src' => base_url("$build?v=$version"), 'build' => TRUE];
+                    $this->{$format}[$group][] = ['src' => base_url("$build?v=$version"), 'build' => TRUE, 'exist' => TRUE];
+                } else {
+                     $this->{$format}[$group][] = ['src' => base_url($build), 'build' => TRUE, 'exist' => FALSE];
                 }
             } else {
                 foreach ($content as $file) {
                     if (is_file($file) && is_readable($file)) {
                         $version = filemtime($file);
-                        $this->{$format}[$group][] = ['src' => base_url("$file?v=$version"), 'build' => FALSE];
+                        $this->{$format}[$group][] = ['src' => base_url("$file?v=$version"), 'build' => FALSE, 'exist' => TRUE];
+                    } else {
+                        $this->{$format}[$group][] = ['src' => base_url($file), 'build' => FALSE, 'exist' => FALSE];
                     }
                 }
             }
