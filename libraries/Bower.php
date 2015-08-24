@@ -21,7 +21,7 @@ class Bower
      */
     private $config = [
         'file' => 'bower.json',
-        'usebuild' => FALSE
+        'build' => FALSE
     ];
 
     /**
@@ -80,15 +80,31 @@ class Bower
 
                 // Si il y a des fichiers CSS
                 if (isset($json['css']) && is_array($json['css'])) {
-                    $this->setFiles($json['css'], 'css');
+                    $this->_files($json['css'], 'css');
                 }
 
                 // Si il y a des fichiers JS
                 if (isset($json['js']) && is_array($json['js'])) {
-                    $this->setFiles($json['js'], 'js');
+                    $this->_files($json['js'], 'js');
                 }
             }
         }
+    }
+    
+    /**
+     * Ajoute un fichier
+     * @param string
+     * @return array
+     */
+    public function add($file) {
+        $output = ['src' => $file, 'build' => FALSE, 'exist' => FALSE];
+        
+        if (is_file($file) && is_readable($file)) {
+            $output['src'] .= "$file?v=".filemtime($file);
+            $output['exist'] = TRUE;
+        }
+
+        return $output;
     }
 
     /**
@@ -126,25 +142,17 @@ class Bower
      * @param array $files
      * @param string $format
      */
-    private function setFiles(array $files = [], $format = 'js') {
+    private function _files(array $files = [], $format = 'js') {
         foreach ($files as $build => $content) {
             $group = basename($build, ".min.$format");
-            
-            if ($this->config['usebuild']) {
-                if (is_file($build) && is_readable($build)) {
-                    $version = filemtime($build);
-                    $this->{$format}[$group][] = ['src' => base_url("$build?v=$version"), 'build' => TRUE, 'exist' => TRUE];
-                } else {
-                     $this->{$format}[$group][] = ['src' => base_url($build), 'build' => TRUE, 'exist' => FALSE];
-                }
+
+            if ($this->config['build']) {
+                $output = $this->add(base_url($build));
+                $output['build'] = TRUE;
+                $this->{$format}[$group][] = $output;
             } else {
                 foreach ($content as $file) {
-                    if (is_file($file) && is_readable($file)) {
-                        $version = filemtime($file);
-                        $this->{$format}[$group][] = ['src' => base_url("$file?v=$version"), 'build' => FALSE, 'exist' => TRUE];
-                    } else {
-                        $this->{$format}[$group][] = ['src' => base_url($file), 'build' => FALSE, 'exist' => FALSE];
-                    }
+                    $this->{$format}[$group][] = $this->add(base_url($file));
                 }
             }
         }

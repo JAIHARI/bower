@@ -9,5 +9,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['bower'] = [
     'file' => 'bower.json',
-    'usebuild' => FALSE
+    'build' => FALSE
 ];
