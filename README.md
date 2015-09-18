@@ -13,6 +13,8 @@ Bower for Codeigniter 3
 composer require maltyxx/bower
 ```
 ### Step 2 Configuration
+Edit file `./application/config/config.php` set `$config['composer_autoload'] = FALSE;` to `$config['composer_autoload'] = FCPATH.'vendor/autoload.php';`
+
 Duplicate configuration file `./application/third_party/origami/config/bower.php` in `./application/config/bower.php`.
 
 ### Step 3 Examples
@@ -49,9 +51,25 @@ class Exemple extends CI_Controller {
 		$this->load->add_package_path(APPPATH.'third_party/bower');
         $this->load->library('bower');
         $this->load->remove_package_path(APPPATH.'third_party/bower');
-        
+
         $this->load->view('exemple_index', [
             'css' => $this->bower->css('default'),
+            'js' => $this->bower->js('default')
+        ]);
+	}
+
+    public function form()
+	{
+		$this->load->add_package_path(APPPATH.'third_party/bower');
+        $this->load->library('bower');
+        $this->load->remove_package_path(APPPATH.'third_party/bower');
+
+        $css = $this->bower->css('default');
+        $css[] = $this->bower->add(base_url('assets/js/form.js'));
+        $css[] = $this->bower->add('https://maps.googleapis.com/maps/api/js');
+
+        $this->load->view('exemple_index', [
+            'css' => $css,
             'js' => $this->bower->js('default')
         ]);
 	}
