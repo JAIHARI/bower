@@ -98,10 +98,7 @@ class Bower
      */
     public function add($file) {
         $output = ['src' => $file, 'build' => FALSE, 'exist' => FALSE];
-        
-        if (strstr($file, base_url())) {
-            $path_file = strtr($file, [base_url() => '']);
-        }
+        $path_file = (strstr($file, base_url())) ? strtr($file, [base_url() => '']) : '';
         
         if (is_file($path_file) && is_readable($path_file)) {
             $output['src'] .= '?v='.filemtime($path_file);

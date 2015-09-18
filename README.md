@@ -75,7 +75,6 @@ View file is located in `/application/views/exemple_index.php`.
     <?php foreach ($js as $file) { ?>
      <script src="<?php echo $file['src']; ?>"></script>
     <?php } ?>
-</head>
 </body>
 </html>
 ```
