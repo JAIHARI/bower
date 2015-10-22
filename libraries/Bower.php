@@ -19,22 +19,22 @@ class Bower
      * Configuration
      * @var array 
      */
-    private $config = [
+    private $config = array(
         'file' => 'bower.json',
         'build' => FALSE
-    ];
+    );
 
     /**
      * Liste des fichier CSS
      * @var array 
      */
-    private $css = [];
+    private $css = array();
 
     /**
      * Liste des fichier JS
      * @var array 
      */
-    private $js = [];
+    private $js = array();
     
     /**
      * Constructeur
@@ -97,8 +97,8 @@ class Bower
      * @return array
      */
     public function add($file) {
-        $output = ['src' => $file, 'build' => FALSE, 'exist' => FALSE];
-        $path_file = (strstr($file, base_url())) ? strtr($file, [base_url() => '']) : '';
+        $output = array('src' => $file, 'build' => FALSE, 'exist' => FALSE);
+        $path_file = (strstr($file, base_url())) ? strtr($file, array(base_url() => '')) : '';
         
         if (is_file($path_file) && is_readable($path_file)) {
             $output['src'] .= '?v='.filemtime($path_file);
@@ -143,7 +143,7 @@ class Bower
      * @param array $files
      * @param string $format
      */
-    private function _files(array $files = [], $format = 'js') {
+    private function _files(array $files = array(), $format = 'js') {
         foreach ($files as $build => $content) {
             $group = basename($build, ".min.$format");
 

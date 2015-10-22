@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license http://www.apache.org/licenses/LICENSE-2.0
  * @link https://github.com/maltyxx/bower
  */
-$config['bower'] = [
+$config['bower'] = array(
     'file' => 'bower.json',
     'build' => FALSE
-];
+);
