@@ -21,20 +21,22 @@ Duplicate configuration file `./application/third_party/origami/config/bower.php
 Bower file is located in `/bower.json`.
 ```json
 {
-    "css": {
-         "assets/build/default.min.css": [
-            "bower_components/angular/angular-csp.css"
-        ]
-    },
-    "js": {
-        "assets/build/default.min.js": [
-            "bower_components/jquery/dist/jquery.js",
-            "bower_components/angular/angular.js"
-        ]
-    },
     "dependencies": {
         "jquery": "2.1.*",
         "angular": "1.4.*"
+    },
+    "codeigniter": {
+        "css": {
+             "assets/build/default.min.css": [
+                "bower_components/angular/angular-csp.css"
+            ]
+        },
+        "js": {
+            "assets/build/default.min.js": [
+                "bower_components/jquery/dist/jquery.js",
+                "bower_components/angular/angular.js"
+            ]
+        }
     }
 }
 ```

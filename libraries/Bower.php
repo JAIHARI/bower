@@ -21,6 +21,7 @@ class Bower
      */
     private $config = array(
         'file' => 'bower.json',
+        'node' => 'codeigniter',
         'build' => FALSE
     );
 
@@ -79,13 +80,13 @@ class Bower
                 unset($content);
 
                 // Si il y a des fichiers CSS
-                if (isset($json['css']) && is_array($json['css'])) {
-                    $this->_files($json['css'], 'css');
+                if (isset($json[$this->config['node']]['css']) && is_array($json[$this->config['node']]['css'])) {
+                    $this->_files($json[$this->config['node']]['css'], 'css');
                 }
 
                 // Si il y a des fichiers JS
-                if (isset($json['js']) && is_array($json['js'])) {
-                    $this->_files($json['js'], 'js');
+                if (isset($json[$this->config['node']]['js']) && is_array($json[$this->config['node']]['js'])) {
+                    $this->_files($json[$this->config['node']]['js'], 'js');
                 }
             }
         }

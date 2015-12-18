@@ -9,5 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 $config['bower'] = array(
     'file' => 'bower.json',
+    'node' => 'codeigniter',
     'build' => FALSE
 );
