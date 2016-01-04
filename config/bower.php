@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link https://github.com/maltyxx/bower
  */
 $config['bower'] = array(
-    'file' => 'bower.json',
-    'node' => 'codeigniter',
+    'file' => 'bowerci.json',
+    'node' => 'ci',
     'build' => FALSE
 );
