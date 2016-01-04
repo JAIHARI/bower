@@ -18,21 +18,17 @@ Edit file `./application/config/config.php` set `$config['composer_autoload'] = 
 Duplicate configuration file `./application/third_party/origami/config/bower.php` in `./application/config/bower.php`.
 
 ### Step 3 Examples
-Bower file is located in `/bower.json`.
+Bower file is located in `/bowerci.json`.
 ```json
 {
-    "dependencies": {
-        "jquery": "2.1.*",
-        "angular": "1.4.*"
-    },
-    "codeigniter": {
+    "ci": {
         "css": {
-             "assets/build/default.min.css": [
+             "build/default.min.css": [
                 "bower_components/angular/angular-csp.css"
             ]
         },
         "js": {
-            "assets/build/default.min.js": [
+            "build/default.min.js": [
                 "bower_components/jquery/dist/jquery.js",
                 "bower_components/angular/angular.js"
             ]
@@ -98,3 +94,50 @@ View file is located in `/application/views/exemple_index.php`.
 </body>
 </html>
 ```
+
+### Step 3 Compilation with Grunt
+This plugin requires Grunt >=0.4.0
+
+If you haven't used Grunt before, be sure to check out the Getting Started guide, as it explains how to create a Gruntfile as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```
+npm install grunt-contrib-cssmin --save-dev
+npm install grunt-contrib-uglify --save-dev
+```
+
+Grunt file is located in `/Gruntfile.js`.
+
+```js
+module.exports = function(grunt) {
+    
+    grunt.initConfig({
+        
+        bower: grunt.file.readJSON("bowerci.json"),
+        
+        cssmin: {
+            options: {
+                rebase: true,
+                report: "min",
+                sourceMap: false
+            },
+            target: {
+                files: "<%= bower.ci.css %>"
+            }
+        },
+        
+        uglify: {
+            target: {
+                files: "<%= bower.ci.js %>"
+            }
+        }
+
+    });
+    
+    grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
+    
+    grunt.registerTask("build", ["cssmin", "uglify"]);
+};
+```
+
+Run compilation `grunt build` and change `'build' => TRUE` in `./application/config/config.php`.
