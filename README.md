@@ -95,7 +95,7 @@ View file is located in `/application/views/exemple_index.php`.
 </html>
 ```
 
-### Step 3 Compilation with Grunt
+### Step 4 Compilation with Grunt
 This plugin requires Grunt >=0.4.0
 
 If you haven't used Grunt before, be sure to check out the Getting Started guide, as it explains how to create a Gruntfile as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
