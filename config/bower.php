@@ -7,8 +7,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license http://www.apache.org/licenses/LICENSE-2.0
  * @link https://github.com/maltyxx/bower
  */
-$config['bower'] = array(
-    'file' => 'bowerci.json',
-    'node' => 'ci',
-    'build' => FALSE
-);
+
+/*
+$config['css']['page'] = [
+    ['src' => base_url('bower_components/font-awesome/css/font-awesome.css')]
+];
+
+$config['js']['page'] = [
+    ['src' => base_url('bower_components/jquery/dist/jquery.js')]
+];
+*/

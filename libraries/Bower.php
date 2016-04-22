@@ -19,23 +19,28 @@ class Bower
      * Configuration
      * @var array 
      */
-    private $config = array(
-        'file' => 'bower.json',
-        'node' => 'codeigniter',
-        'build' => FALSE
-    );
-
+    private $config = [
+        'css' => [],
+        'js' => []
+    ];
+    
     /**
-     * Liste des fichier CSS
+     * Les fichiers
      * @var array 
      */
-    private $css = array();
-
+    private $files = [];
+    
     /**
-     * Liste des fichier JS
+     * Les paramètres
      * @var array 
      */
-    private $js = array();
+    private $params = [
+        'src' => NULL,
+        'embed' => FALSE,
+        'content' => NULL,
+        'exist' => FALSE,
+        'filemtime' => NULL
+    ];
     
     /**
      * Constructeur
@@ -54,39 +59,42 @@ class Bower
     /**
      * Configuration
      * @param array $config
+     * @return boolean
      */
     public function initialize(array $config = array())
     {
         // Si il y a pas de fichier de configuration
         if (empty($config)) {
-            return;
+            return FALSE;
         }
 
         // Merge les fichiers de configuration
         $this->config = array_merge($this->config, (isset($config['bower'])) ? $config['bower'] : $config);
-
-        // Ajoute le path au fichier
-        $this->config['file'] =  FCPATH.$this->config['file'];
-
-        // Si le fichier existe
-        if (is_file($this->config['file']) && is_readable($this->config['file'])) {
-            $content = file_get_contents($this->config['file']);
-
-            // Si il y a un contenu
-            if (!empty($content)) {
-                $json = json_decode($content, TRUE);
-
-                // Suprimme le contenu
-                unset($content);
-
-                // Si il y a des fichiers CSS
-                if (isset($json[$this->config['node']]['css']) && is_array($json[$this->config['node']]['css'])) {
-                    $this->_files($json[$this->config['node']]['css'], 'css');
+        
+        
+        // Si il y a des fichiers JS
+        if (!empty($config['css']) && is_array($config['css'])) {
+            foreach ($config['css'] as $index => $line) {
+                foreach ($line as $params) {
+                    $this->files['css'][$index][] = $this->_add($params);
                 }
-
-                // Si il y a des fichiers JS
-                if (isset($json[$this->config['node']]['js']) && is_array($json[$this->config['node']]['js'])) {
-                    $this->_files($json[$this->config['node']]['js'], 'js');
+            }
+        }
+        
+        // Si il y a des fichiers JS
+        if (!empty($config['js']) && is_array($config['js'])) {
+            foreach ($config['js'] as $index => $line) {
+                foreach ($line as $params) {
+                    $this->files['js'][$index][] = $this->_add($params);
+                }
+            }
+        }
+        
+        // Si il y a des fichiers MAP
+        if (!empty($config['map']) && is_array($config['map'])) {
+            foreach ($config['map'] as $index => $line) {
+                foreach ($line as $params) {
+                    $this->files['map'][$index][] = $this->_add($params);
                 }
             }
         }
@@ -94,31 +102,26 @@ class Bower
     
     /**
      * Ajoute un fichier
-     * @param string
+     * @param type $src
+     * @param array $options
      * @return array
      */
-    public function add($file) {
-        $output = array('src' => $file, 'build' => FALSE, 'exist' => FALSE);
-        $path_file = (strstr($file, base_url())) ? strtr($file, array(base_url() => '')) : '';
-        
-        if (is_file($path_file) && is_readable($path_file)) {
-            $output['src'] .= '?v='.filemtime($path_file);
-            $output['exist'] = TRUE;
-        }
-
-        return $output;
+    public function add($src, array $options = [])
+    {
+        $params = array_merge($this->params, $options);
+        $params['src'] = $src;
+        return $this->_add($params);
     }
 
     /**
      * Retourne les fichiers CSS
-     * @param string|NULL $index
+     * @param string $index
      * @return mixed
      */
-    public function css($index = NULL) {
-        if ($index === NULL) {
-            return $this->css;
-        } else if (isset($this->css[$index])) {
-            return $this->css[$index];
+    public function css($index)
+    {
+        if (isset($this->files['css'][$index])) {
+            return $this->files['css'][$index];
         } else {
             return FALSE;
         }
@@ -126,37 +129,58 @@ class Bower
 
     /**
      * Retourne les fichiers JS
-     * @param string|NULL $index
+     * @param string $index
      * @return mixed
      */
-    public function js($index = NULL) {
-        if ($index === NULL) {
-            return $this->js;
-        } else if (isset($this->js[$index])) {
-            return $this->js[$index];
+    public function js($index)
+    {
+        if (isset($this->files['js'][$index])) {
+            return $this->files['js'][$index];
         } else {
             return FALSE;
         }
     }
     
     /**
-     * Ajoute des fichiers
-     * @param array $files
-     * @param string $format
+     * Retourne les fichiers MAP
+     * @param string $index
+     * @return mixed
      */
-    private function _files(array $files = array(), $format = 'js') {
-        foreach ($files as $build => $content) {
-            $group = basename($build, ".min.$format");
-
-            if ($this->config['build']) {
-                $output = $this->add(base_url($build));
-                $output['build'] = TRUE;
-                $this->{$format}[$group][] = $output;
-            } else {
-                foreach ($content as $file) {
-                    $this->{$format}[$group][] = $this->add(base_url($file));
-                }
-            }
+    public function map($index)
+    {
+        if (isset($this->files['map'][$index])) {
+            return $this->files['map'][$index];
+        } else {
+            return FALSE;
         }
     }
+    
+    /**
+     * Ajout de fichier
+     * @param array $options
+     * @return array
+     */
+    private function _add(array $options)
+    {
+        // Merge les paramètres
+        $params = array_merge($this->params, $options);
+        
+        // Retire le l'url de base
+        $path_file = (strstr($params['src'], base_url())) ? strtr($params['src'], [base_url() => '']) : '';
+        
+        // Si le fichier se trouve en local
+        if (is_file($path_file) && is_readable($path_file)) {
+            $params['filemtime'] = filemtime($path_file);
+            $params['src'] .= "?v={$params['filemtime']}";
+            $params['exist'] = TRUE;
+            
+            // Si le contenu du fichier doit être enregistré
+            if  (isset($params['embed']) && $params['embed'] === TRUE) {
+                $params['content'] = file_get_contents($path_file);
+            }
+        }
+
+        return $params;
+    }
+    
 }

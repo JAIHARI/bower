@@ -15,26 +15,20 @@ composer require maltyxx/bower
 ### Step 2 Configuration
 Edit file `./application/config/config.php` set `$config['composer_autoload'] = FALSE;` to `$config['composer_autoload'] = FCPATH.'vendor/autoload.php';`
 
-Duplicate configuration file `./application/third_party/origami/config/bower.php` in `./application/config/bower.php`.
+Duplicate configuration file `./application/third_party/bower/config/bower.php` in `./application/config/development/bower.php`.
 
 ### Step 3 Examples
-Bower file is located in `/bowerci.json`.
-```json
-{
-    "ci": {
-        "css": {
-             "build/default.min.css": [
-                "bower_components/angular/angular-csp.css"
-            ]
-        },
-        "js": {
-            "build/default.min.js": [
-                "bower_components/jquery/dist/jquery.js",
-                "bower_components/angular/angular.js"
-            ]
-        }
-    }
-}
+Bower file is located in `./application/config/development/bower.php`.
+```php
+$config['css']['default'] = [
+    ['src' => base_url('bower_components/font-awesome/css/font-awesome.css')],
+    ['src' => base_url('assets/css/custom.css')]
+];
+
+$config['js']['default'] = [
+    ['src' => base_url('bower_components/jquery/dist/jquery.js')],
+    ['src' => base_url('assets/js/custom.js')]
+];
 ```
 
 Controller file is located in `/application/controllers/Exemple.php`.
@@ -44,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Exemple extends CI_Controller {
 
-	public function index()
+	public function exemple1()
 	{
 		$this->load->add_package_path(APPPATH.'third_party/bower');
         $this->load->library('bower');
@@ -56,15 +50,28 @@ class Exemple extends CI_Controller {
         ]);
 	}
 
-    public function form()
+    public function exemple2()
+	{
+		$this->load->add_package_path(APPPATH.'third_party/bower');
+        $this->load->library('bower');
+        $this->load->remove_package_path(APPPATH.'third_party/bower');
+
+        $js = $this->bower->js('default');
+        $js[] = $this->bower->add('https://maps.googleapis.com/maps/api/js');
+
+        $this->load->view('exemple_index', [
+            'js' => $js
+        ]);
+	}
+
+    public function exemple3()
 	{
 		$this->load->add_package_path(APPPATH.'third_party/bower');
         $this->load->library('bower');
         $this->load->remove_package_path(APPPATH.'third_party/bower');
 
         $css = $this->bower->css('default');
-        $css[] = $this->bower->add(base_url('assets/js/form.js'));
-        $css[] = $this->bower->add('https://maps.googleapis.com/maps/api/js');
+        $css[] = $this->bower->add(base_url('assets/css/custom2.css'), ['embed' => TRUE]);
 
         $this->load->view('exemple_index', [
             'css' => $css,
@@ -111,9 +118,6 @@ Grunt file is located in `/Gruntfile.js`.
 module.exports = function(grunt) {
     
     grunt.initConfig({
-        
-        bower: grunt.file.readJSON("bowerci.json"),
-        
         cssmin: {
             options: {
                 rebase: true,
@@ -121,13 +125,23 @@ module.exports = function(grunt) {
                 sourceMap: false
             },
             target: {
-                files: "<%= bower.ci.css %>"
+                files: {
+                    "build/default.min.css": [
+                        'bower_components/font-awesome/css/font-awesome.css',
+                        'assets/css/custom.css'
+                    ]
+                }
             }
         },
         
         uglify: {
             target: {
-                files: "<%= bower.ci.js %>"
+                files: {
+                    "build/default.min.js": [
+                        'bower_components/jquery/dist/jquery.js',
+                        'assets/js/custom.js'
+                    ]
+                }
             }
         }
 
@@ -139,5 +153,14 @@ module.exports = function(grunt) {
     grunt.registerTask("build", ["cssmin", "uglify"]);
 };
 ```
+### Step 5 For example the production environment
+Bower file is located in `./application/config/production/bower.php`.
+```php
+$config['css']['default'] = [
+    ['src' => base_url('build/default.min.css')],
+];
 
-Run compilation `grunt build` and change `'build' => TRUE` in `./application/config/config.php`.
+$config['js']['default'] = [
+    ['src' => base_url('build/default.min.js')],
+];
+```
