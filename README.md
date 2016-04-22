@@ -157,10 +157,10 @@ module.exports = function(grunt) {
 Bower file is located in `./application/config/production/bower.php`.
 ```php
 $config['css']['default'] = [
-    ['src' => base_url('build/default.min.css')],
+    ['src' => base_url('build/default.min.css')]
 ];
 
 $config['js']['default'] = [
-    ['src' => base_url('build/default.min.js')],
+    ['src' => base_url('build/default.min.js')]
 ];
 ```
