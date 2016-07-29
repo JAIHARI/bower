@@ -8,12 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link https://github.com/maltyxx/bower
  */
 
-/*
-$config['css']['page'] = [
-    ['src' => base_url('bower_components/font-awesome/css/font-awesome.css')]
-];
 
-$config['js']['page'] = [
-    ['src' => base_url('bower_components/jquery/dist/jquery.js')]
-];
-*/
+$config['css']['page'] = array(
+    array('src' => base_url('bower_components/font-awesome/css/font-awesome.css'))
+);
+
+$config['js']['page'] = array(
+    array('src' => base_url('bower_components/jquery/dist/jquery.js'))
+);

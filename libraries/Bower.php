@@ -19,28 +19,28 @@ class Bower
      * Configuration
      * @var array 
      */
-    private $config = [
-        'css' => [],
-        'js' => []
-    ];
+    private $config = array(
+        'css' => array(),
+        'js' => array()
+    );
     
     /**
      * Les fichiers
      * @var array 
      */
-    private $files = [];
+    private $files = array();
     
     /**
      * Les paramètres
      * @var array 
      */
-    private $params = [
+    private $params = array(
         'src' => NULL,
         'embed' => FALSE,
         'content' => NULL,
         'exist' => FALSE,
         'filemtime' => NULL
-    ];
+    );
     
     /**
      * Constructeur
@@ -106,7 +106,7 @@ class Bower
      * @param array $options
      * @return array
      */
-    public function add($src, array $options = [])
+    public function add($src, array $options = array())
     {
         $params = array_merge($this->params, $options);
         $params['src'] = $src;
@@ -166,7 +166,7 @@ class Bower
         $params = array_merge($this->params, $options);
         
         // Retire le l'url de base
-        $path_file = (strstr($params['src'], base_url())) ? strtr($params['src'], [base_url() => '']) : '';
+        $path_file = (strstr($params['src'], base_url())) ? strtr($params['src'], array(base_url() => '')) : '';
         
         // Si le fichier se trouve en local
         if (is_file($path_file) && is_readable($path_file)) {

@@ -3,7 +3,7 @@ Bower for Codeigniter 3
 
 ## Requirements
 
-- PHP 5.4.x (Composer requirement)
+- PHP 5.3.x (Composer requirement)
 - CodeIgniter 3.0.x
 
 ## Installation
@@ -20,15 +20,15 @@ Duplicate configuration file `./application/third_party/bower/config/bower.php` 
 ### Step 3 Examples
 Bower file is located in `./application/config/development/bower.php`.
 ```php
-$config['css']['default'] = [
-    ['src' => base_url('bower_components/font-awesome/css/font-awesome.css')],
-    ['src' => base_url('assets/css/custom.css')]
-];
+$config['css']['default'] = array(
+    array('src' => base_url('bower_components/font-awesome/css/font-awesome.css')),
+    array('src' => base_url('assets/css/custom.css'))
+);
 
-$config['js']['default'] = [
-    ['src' => base_url('bower_components/jquery/dist/jquery.js')],
-    ['src' => base_url('assets/js/custom.js')]
-];
+$config['js']['default'] = array(
+    array('src' => base_url('bower_components/jquery/dist/jquery.js')),
+    array('src' => base_url('assets/js/custom.js'))
+);
 ```
 
 Controller file is located in `/application/controllers/Exemple.php`.
@@ -44,10 +44,10 @@ class Exemple extends CI_Controller {
         $this->load->library('bower');
         $this->load->remove_package_path(APPPATH.'third_party/bower');
 
-        $this->load->view('exemple_index', [
+        $this->load->view('exemple_index', array(
             'css' => $this->bower->css('default'),
             'js' => $this->bower->js('default')
-        ]);
+        ));
 	}
 
     public function exemple2()
@@ -59,9 +59,9 @@ class Exemple extends CI_Controller {
         $js = $this->bower->js('default');
         $js[] = $this->bower->add('https://maps.googleapis.com/maps/api/js');
 
-        $this->load->view('exemple_index', [
+        $this->load->view('exemple_index', array(
             'js' => $js
-        ]);
+        ));
 	}
 
     public function exemple3()
@@ -71,12 +71,12 @@ class Exemple extends CI_Controller {
         $this->load->remove_package_path(APPPATH.'third_party/bower');
 
         $css = $this->bower->css('default');
-        $css[] = $this->bower->add(base_url('assets/css/custom2.css'), ['embed' => TRUE]);
+        $css[] = $this->bower->add(base_url('assets/css/custom2.css'), array('embed' => TRUE));
 
-        $this->load->view('exemple_index', [
+        $this->load->view('exemple_index', array(
             'css' => $css,
             'js' => $this->bower->js('default')
-        ]);
+        ));
 	}
 
 }
@@ -156,11 +156,11 @@ module.exports = function(grunt) {
 ### Step 5 For example the production environment
 Bower file is located in `./application/config/production/bower.php`.
 ```php
-$config['css']['default'] = [
-    ['src' => base_url('build/default.min.css')]
-];
+$config['css']['default'] = array(
+    array('src' => base_url('build/default.min.css'))
+);
 
-$config['js']['default'] = [
-    ['src' => base_url('build/default.min.js')]
-];
+$config['js']['default'] = array(
+    array('src' => base_url('build/default.min.js'))
+);
 ```
